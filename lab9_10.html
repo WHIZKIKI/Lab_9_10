@@ -1,0 +1,136 @@
+<html>
+ <head>
+  <title>form validation</title>
+  <style>
+        input{
+            border: 0;
+            border-bottom: 1px solid #000;
+            background-color: rgba(0,0,0,0);
+            outline: 0;  
+        }
+        .form_container{
+            display: flex;
+            justify-content: center;
+            margin: 40px 50px;
+            padding: 30px;
+            background-color: #f8f8f8;
+            border-radius: 30px;
+            color: #ffffff;
+        }
+
+
+        .btn {
+            color: #ffffff;
+            background: #0084ff;
+            border: 1px solid #2b98f0;
+        }
+
+        .label {
+            color: #2b98f0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .alert {
+            padding: 5px;
+            background-color: #f44336; /* Red */
+            color: white;
+            margin-bottom: 15px;
+        }
+
+/* The close button */
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+/* When moving the mouse over the close button */
+        .closebtn:hover {
+            color: black;
+        }
+  </style>
+
+   <script>  
+
+     function Login()
+     {
+        var name=document.myform.name.value;
+        var email=document.myform.email.value;
+        var website=document.myform.website.value;
+        var phone=document.myform.phone.value;
+        var message=document.myform.message.value;
+        var website=document.myform.website.value;
+        var emailRegExp =/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
+        var telRegExp = /^\+7[1-9]{10}$/;
+        var webRegExp = /^https:\/\www.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})?/
+        
+       if(name.length > 0 && message.length > 10 && emailRegExp.test(email) && telRegExp.test(phone) && webRegExp(website))
+       {
+                let data = {
+                    name: name.value,
+                    email: email.value,
+                    website: website.value,
+                    phone: phone.value
+                }
+                sendToServer(data);
+            }
+    }
+
+    function sendToServer(data) 
+    {
+    let url = "http://localhost:3000";
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(data)
+    })
+        .then((response) => response.text())
+        .then((text) => {
+            alert(text);
+        });
+    } 
+
+    function deleteErrors() {
+    errors = document.getElementsByClassName('error');
+    for (let i = errors.length - 1; i >= 0; i--) {
+        errors[i].remove();
+    }
+    }   
+
+
+  </script> 
+ </head> 
+
+
+<body>
+    <h2 style="text-align: center;">Contact Us</h2> 
+    <h4 style="text-align: center;">your message was sent, thank you!</h4>
+    <div class="form_container">
+        <form name="myform" method="post" action="Text.html" onsubmit="return Login()" >
+
+            <input type="text" id="name" required placeholder="YOUR NAME"><br><br>
+          <!-- <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;
+                </span>
+                This is an alert box.
+            </div>-->  
+            <input type="email" id="email" required placeholder="EMAIL ADRESS"><br><br>
+
+            <input type="phone" id="phone" required placeholder="+7"><br><br>
+
+            <input type="website" id="website" required placeholder="WEBSITE"> <br><br>
+
+            <textarea id="textarea" name="textarea1"  placeholder="YOUR MESSAGE" rows></textarea> <br><br>
+            <p>
+                <button type="submit" class="btn" id="log_event">LOGIN</button>
+          </form>
+    </div>
+    </body>
+</html>
